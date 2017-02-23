@@ -10,6 +10,7 @@ Cl      = x(3);
 Na      = x(4);
 ATP     = x(5);
 ADP     = x(6);
+Dye     = x(7);
 
 %% initialize the rates of change for each variable with 0
 dHdt    = 0;
@@ -18,6 +19,7 @@ dCldt   = 0;
 dNadt   = 0;
 dATPdt  = 0;
 dADPdt  = 0;
+dDyedt  = 0;
 
 %% Functions of the state
 
@@ -30,8 +32,11 @@ V_K  = Nernst(k.z_K  , K  , k.K_e);
 V_Cl = Nernst(k.z_Cl , Cl , k.Cl_e);
 V_Na = Nernst(k.z_Na , Na , k.Na_e);
 
+% Nernst equilibrium potential for the Dye [Volt]
+V_Dye = Nernst(k.z_Dye , Dye , k.Dye_e);
+
 % Membrane potential, given by charge balance, Ref: Kahm 2012 [Volt].
-V_m = k.e * k.NA * k.V  / (k.S * k.C_m) * (H + K - Cl + Na);
+V_m = k.e * k.NA * k.V  / (k.S * k.C_m) * (H + K - Cl + Na + Dye);
 
 % Delta G pump H [Volt]
 DG_Hpump = k.k_B * k.T / k.e * log(ADP/ATP) + V_H - V_m;
@@ -102,6 +107,11 @@ dCldt = dCldt - v3;
 v4    = k.PB_Na / (k.e * k.z_Na) * k.S * k.g_Na * (V_m - V_Na) / (k.V * k.NA); % [mol/Liter/second]
 dNadt = dNadt - v4;
 
+%% Dye movement
+
+v_Dye  = 1 / (k.e * k.z_Dye) * k.S * k.g_Dye  * (V_m - V_Dye) / (k.V * k.NA);
+dDyedt = dDyedt - v_Dye;
+
 %% Pumping
 % H_i -> H_e; @k.g.Hpump * k.S / k.e * DG_pump
 v5     = - k.g.Hpump * k.S / k.e * DG_Hpump / (k.V * k.NA);
@@ -132,4 +142,4 @@ dADPdt = dADPdt - v6;
 
 
 %% output vector of rates of change of all variables
-dxdt    = [dHdt; dKdt; dCldt; dNadt; dATPdt; dADPdt];
+dxdt    = [dHdt; dKdt; dCldt; dNadt; dATPdt; dADPdt; dDyedt];

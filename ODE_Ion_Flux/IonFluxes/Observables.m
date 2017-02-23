@@ -5,9 +5,7 @@ Cl_i = result(:,3);    % ...
 Na_i = result(:,4);
 ATP  = result(:,5);
 ADP  = result(:,6);
-
-% Membrane potentials
-V_m = k.e * k.NA * k.V / (k.S * k.C_m) * (H_i + K_i - Cl_i + Na_i);
+Dye  = result(:,7);
 
 % Nernst potentials
 Nernst = @(z , c_i , c_e) k.k_B * k.T ./ (z * k.e) * log(c_e ./ c_i);
@@ -16,6 +14,12 @@ V_H  = Nernst(k.z_H  , H_i  , k.H_e);
 V_K  = Nernst(k.z_K  , K_i  , k.K_e);
 V_Cl = Nernst(k.z_Cl , Cl_i , k.Cl_e);
 V_Na = Nernst(k.z_Na , Na_i , k.Na_e);
+
+% Nernst equilibrium potential for the Dye [Volt]
+V_Dye = Nernst(k.z_Dye , Dye , k.Dye_e);
+
+% Membrane potential, given by charge balance, Ref: Kahm 2012 [Volt].
+V_m = k.e * k.NA * k.V  / (k.S * k.C_m) * (H_i + K_i - Cl_i + Na_i + Dye);
 
 % Proton Motive Force
 PMF = V_m - V_H;

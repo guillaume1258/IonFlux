@@ -6,7 +6,7 @@ clear
 tfinal  = 1e4;                              % final time
 
 %% configure integrator (check 'doc ode15s' for more info)
-options = odeset('NonNegative',[1:6]);      % ensures variables stay positive
+options = odeset('NonNegative',[1:7]);      % ensures variables stay positive
 % (this is not always necessary
 % but can be helpful, but make sure
 % your system is actually a positive system!)
@@ -26,31 +26,38 @@ Cl_i0     = 1e0;
 Na_i0     = 1e-3;
 ATP0      = 1;
 ADP0      = 5e-2;
+Dye0      = 1e-6;
 
-x0      = [H_i0, K_i0, Cl_i0, Na_i0, ATP0, ADP0]; % definition of the initial vector of variables
-
-%% Loop over range of pH and ATP fluxes
+%% Loop over range of external Dye concentration
 
 v = struct();
 
-v.pHe    = linspace(5 , 7 , 11);        % External pH
-v.nu_ATP = linspace(1 , 20 , 20) * 1e9; % In ATP/hour/cell
+%v.Dye_e  = linspace(1 , 21  , 5) * 1e-6; % External concentration of dye
+Dye_vec = [1 , 5  , 10 , 20 , 50] * 1e-6;
+v.Dye_e=Dye_vec;
 
-for i = 1 : 1%length(v.pHe)
+for i = 1 : length(v.Dye_e)
     
-    pHe = v.pHe(i);
     
-    % Force pHe
-    pHe = 10;
-    k.H_e  = 10^-pHe;
+    x0 = [H_i0, K_i0, Cl_i0, Na_i0, ATP0, ADP0, Dye0]; % Reset initial conditions
     
-    for j = 10 : 10%length(v.nu_ATP)
-    
-        nu_ATP     = v.nu_ATP(j) / 3600;       
-        k.ATP_Prod = nu_ATP / (k.V * k.NA);
-
+    for z = 1 : 2
+        
+        if z == 2
+            
+            k.Dye_e = v.Dye_e(i);
+            %k.Dye_e = 0;
+            tfinal = 1e4;
+            
+        else
+            
+            k.Dye_e = 1e-6;
+            tfinal  = 1e4;
+            
+        end
+        
         tic;
-
+        
         %% simulate
         [t,result] = ode15s(@(t,result) ODE(t,result,k),[0,tfinal],x0,options);
         
@@ -59,14 +66,19 @@ for i = 1 : 1%length(v.pHe)
         Observables;
         
         % Now store observables we want to know the values for each
-        % iteration of the loops:
-        v.V_m(i , j)      = V_m(end);
-        v.DeltapHi(i , j) = Delta_pHi(end);
-        v.PMF(i , j)      = PMF(end);
-        v.DeltaG_H(i , j) = DeltaG_H(end);
-        v.DeltaG_K(i , j) = DeltaG_K(end);
-        v.Beta_H(i , j)   = Beta_H(end);
+        % iteration of the loops, only from the moment we add the Dye
+        v.V_m(i)      = V_m(end);
+        v.DeltapHi(i) = Delta_pHi(end);
+        v.PMF(i)      = PMF(end);
+        v.DeltaG_H(i) = DeltaG_H(end);
+        v.DeltaG_K(i) = DeltaG_K(end);
+        v.Beta_H(i)   = Beta_H(end);
         
+        TimeDynamics(i).t    = t;
+        TimeDynamics(i).Dye  = Dye;
+        
+        x0 = [H_i(end) , K_i(end) , Cl_i(end) , Na_i(end) , ATP(end) , ADP(end) , Dye(end)];
+   
         toc;
         
     end
@@ -93,5 +105,8 @@ if ToPlot == 0
     
     figure(2);
     plot(t,V_m); ylabel('V_m','fontsize',14)
+    
+    figure(3);
+    plot(t,Dye*1e3); ylabel('[Dye]_i [mMol]' , 'fontsize', 14)
     
 end

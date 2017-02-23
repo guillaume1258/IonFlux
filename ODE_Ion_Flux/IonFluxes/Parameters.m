@@ -64,3 +64,8 @@ k.PB_H  = 1;
 k.PB_K  = 1;
 k.PB_Cl = 1;
 k.PB_Na = 1;
+
+% Dye
+k.g_Dye = 0.05;
+k.z_Dye = 1;
+k.Dye_e = 1e-6;
