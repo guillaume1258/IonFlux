@@ -26,7 +26,7 @@ Cl_i0     = 1e0;
 Na_i0     = 1e-3;
 ATP0      = 1;
 ADP0      = 5e-2;
-Dye0      = 1e-6;
+Dye0      = 1e-7;
 
 %% Loop over range of external Dye concentration
 
@@ -36,7 +36,9 @@ v = struct();
 Dye_vec = [1 , 5  , 10 , 20 , 50] * 1e-6;
 v.Dye_e=Dye_vec;
 
-for i = 1 : length(v.Dye_e)
+v.g_Dye = [0.1 , 1  , 5 , 10 , 25] * 1e-2;
+
+for i = 1 : length(v.g_Dye)
     
     
     x0 = [H_i0, K_i0, Cl_i0, Na_i0, ATP0, ADP0, Dye0]; % Reset initial conditions
@@ -45,13 +47,16 @@ for i = 1 : length(v.Dye_e)
         
         if z == 2
             
-            k.Dye_e = v.Dye_e(i);
+            k.Dye_e = 10e-6;
             %k.Dye_e = 0;
             tfinal = 1e4;
             
+            % Update conductance of the Dye
+            k.g_Dye = v.g_Dye(i);
+            
         else
             
-            k.Dye_e = 1e-6;
+            k.Dye_e = 1e-7;
             tfinal  = 1e4;
             
         end
