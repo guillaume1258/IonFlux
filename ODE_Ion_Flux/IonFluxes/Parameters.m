@@ -66,6 +66,10 @@ k.K.cat    = 1e-3;
 nu_ATP     = 1 * 1e10 / 3600;       % ATP/second per cell
 k.ATP_Prod = nu_ATP / (k.V * k.NA); % [mol/Liter/second], 1e6 is [molec/second], k.V is volume of a cell, k.NA is [mol^-1]
 
+% Net Concentration of non permeable negative charges inside the cell
+% [mol/Liter]
+k.Z = 125 * 1e-3; 
+
 % Membrane Permeability boolean
 k.PB_H  = 1;
 k.PB_K  = 1;

@@ -7,7 +7,7 @@ ATP  = result(:,5);
 ADP  = result(:,6);
 
 % Membrane potentials
-V_m = k.e * k.NA * k.V / (k.S * k.C_m) * (H_i + K_i - Cl_i + Na_i);
+V_m = k.e * k.NA * k.V / (k.S * k.C_m) * (H_i + K_i - Cl_i + Na_i - k.Z);
 
 % Nernst potentials
 Nernst = @(z , c_i , c_e) k.k_B * k.T ./ (z * k.e) * log(c_e ./ c_i);

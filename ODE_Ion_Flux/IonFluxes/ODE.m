@@ -31,7 +31,7 @@ V_Cl = Nernst(k.z_Cl , Cl , k.Cl_e);
 V_Na = Nernst(k.z_Na , Na , k.Na_e);
 
 % Membrane potential, given by charge balance, Ref: Kahm 2012 [Volt].
-V_m = k.e * k.NA * k.V  / (k.S * k.C_m) * ((H + K - Cl + Na));
+V_m = k.e * k.NA * k.V  / (k.S * k.C_m) * ((H + K - Cl + Na - k.Z));
 
 % Delta G pump H [Volt]
 DG_Hpump = k.k_B * k.T / k.e * log(ADP/ATP) + V_H - V_m;

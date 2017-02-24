@@ -20,9 +20,9 @@ options = odeset(options, 'RelTol', 1e-9,...
 Parameters;
 
 %% set initial values [mol/Liter]
-H_i0      = 1e-6;
-K_i0      = 1e-4;
-Cl_i0     = 1e0;
+H_i0      = 1e-7;
+K_i0      = 1e-3;
+Cl_i0     = 1e-1;
 Na_i0     = 1e-3;
 ATP0      = 1;
 ADP0      = 5e-2;
