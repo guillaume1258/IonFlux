@@ -69,6 +69,7 @@ for i = 1 : length(v.Z)%length(v.pHe)
         v.DeltaG_H(i , j) = DeltaG_H(end);
         v.DeltaG_K(i , j) = DeltaG_K(end);
         v.Beta_H(i , j)   = Beta_H(end);
+        v.OP(i)           = OP(end);
         
         v.H_i(i)  = H_i(end);
         v.K_i(i)  = K_i(end);

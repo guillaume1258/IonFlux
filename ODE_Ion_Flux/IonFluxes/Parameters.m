@@ -70,6 +70,10 @@ k.ATP_Prod = nu_ATP / (k.V * k.NA); % [mol/Liter/second], 1e6 is [molec/second],
 % [mol/Liter]
 k.Z = 125 * 1e-3; 
 
+% Osmotic active concentration [mol/liter], ref kham 2012
+k.X_o = 0.15; % outside
+k.X_i = 0.30; % inside
+
 % Membrane Permeability boolean
 k.PB_H  = 1;
 k.PB_K  = 1;
