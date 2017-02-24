@@ -3,7 +3,7 @@
 clear
 
 %% set simulation time
-tfinal  = 1e4;                              % final time
+tfinal  = 1e5;                              % final time
 
 %% configure integrator (check 'doc ode15s' for more info)
 options = odeset('NonNegative',[1:6]);      % ensures variables stay positive
@@ -41,12 +41,12 @@ for i = 1 : 1%length(v.pHe)
     pHe = v.pHe(i);
     
     % Force pHe
-    pHe = 10;
+    pHe = 7;
     k.H_e  = 10^-pHe;
     
-    for j = 10 : 10%length(v.nu_ATP)
+    for j = 1 : 1%length(v.nu_ATP)
     
-        nu_ATP     = v.nu_ATP(j) / 3600;       
+        nu_ATP     = 0;%v.nu_ATP(j) / 3600;       
         k.ATP_Prod = nu_ATP / (k.V * k.NA);
 
         tic;

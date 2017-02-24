@@ -11,14 +11,21 @@ k.K.H     = 0.2;
 k.alpha_H = 2;
 
 % Membrane capacitance farad/m^2, ref:  Kahm 2012
-k.C_m = 1e2;
+k.C_m = 1e-2;
 
 % Ion concentration outside, for ionic species H, K, Cl, Na
 % Ref, Neidhart 1974, M9 medium, units are Mol/Liter
+% HPO4^2- and H2PO4^- are merged into Cl^- whereas NH4^+ is merged into Na^+
 k.H_e  = 10^-pHe;
 k.K_e  = 22    * 1e-3;
-k.Cl_e = 28.09 * 1e-3;
-k.Na_e = 93    * 1e-3;
+k.Cl_e = (28 + 106) * 1e-3;
+k.Na_e = k.Cl_e - k.K_e - k.H_e;
+
+% No charge neutrality
+% k.H_e  = 10^-pHe;
+% k.K_e  = 22    * 1e-3;
+% k.Cl_e = 28.09 * 1e-3;
+% k.Na_e = 93    * 1e-3;
 
 % Valence of each ion
 k.z_H  = 1;

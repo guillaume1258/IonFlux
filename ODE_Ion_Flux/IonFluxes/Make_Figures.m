@@ -3,7 +3,7 @@
 
 %% Figure 1: V_m as function of pHe and ATP expenditure per hour
 
-load('data/Sim_22_02_2017.mat');
+load('data/Sim_24_02_2017.mat');
 
 figure(1)
 hold all

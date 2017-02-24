@@ -31,7 +31,7 @@ V_Cl = Nernst(k.z_Cl , Cl , k.Cl_e);
 V_Na = Nernst(k.z_Na , Na , k.Na_e);
 
 % Membrane potential, given by charge balance, Ref: Kahm 2012 [Volt].
-V_m = k.e * k.NA * k.V  / (k.S * k.C_m) * (H + K - Cl + Na);
+V_m = k.e * k.NA * k.V  / (k.S * k.C_m) * ((H + K - Cl + Na));
 
 % Delta G pump H [Volt]
 DG_Hpump = k.k_B * k.T / k.e * log(ADP/ATP) + V_H - V_m;
@@ -58,9 +58,9 @@ pHi_Current = -log10(H);
 Delta_pHi   = abs(k.pHi_Target - pHi_Current);
 
 Beta_H  = 1 / (1 + (k.K.H / Delta_pHi)^k.alpha_H);
-Beta_K  = (1 - Beta_H)/3;
-Beta_Cl = (1 - Beta_H)/3;
-Beta_Na = (1 - Beta_H)/3;
+Beta_K  = (1 - Beta_H) * 1 / 3;
+Beta_Cl = (1 - Beta_H) * 1 / 3;
+Beta_Na = (1 - Beta_H) * 1 / 3;
 
 % Work allocated to each ions [Joule/Liter/second]
 Work_H  = Beta_H  * Work;
