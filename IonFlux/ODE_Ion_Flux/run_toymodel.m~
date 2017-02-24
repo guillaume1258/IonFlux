@@ -1,0 +1,129 @@
+% Model: track inside concentration of ionic species H, K, Cl and Na along time.
+
+%% set simulation time
+tfinal  = 1e5;                              % final time
+
+%% configure integrator (check 'doc ode15s' for more info)
+options = odeset('NonNegative',[1:6]);      % ensures variables stay positive 
+                                            % (this is not always necessary 
+                                            % but can be helpful, but make sure 
+                                            % your system is actually a positive system!)
+
+options = odeset(options, 'RelTol', 1e-6,...
+                          'AbsTol', 1e-9);  % accuracy of integrator 
+                                            % (here set to default values)
+
+%% set parameters
+
+k = struct();
+
+% Medium pH
+pH_e = 7;
+
+% Membrane capacitance farad/m^2, ref:  Kahm 2012
+k.C_m = 1e2;
+
+% Ion concentration outside, for ionic species H, K, Cl, Na
+% Ref, Neidhart 1974, M9 medium, units are Mol/Liter
+k.H_e  = 10^-pH_e;
+k.K_e  = 22    * 1e-3;
+k.Cl_e = 28.09 * 1e-3;
+k.Na_e = 93    * 1e-3;
+
+% Valence of each ion
+k.z_H  = 1;
+k.z_K  = 1;
+k.z_Cl = -1;
+k.z_Na = 1;
+
+% Membrane conductance for each of these ions, in Siemens/m^2
+k.g_H  = 0.25;
+k.g_K  = 0.05;
+k.g_Cl = 0.05;
+k.g_Na = 0.05;
+
+% Length & width of E.coli in glucose medium, ref: Basan 2015.
+% Units in meter
+length = 2.95 * 1e-6;
+width  = 1.07 * 1e-6;
+radius = width / 2;
+
+% Surface and volume of E.coli in m^2 & m^3
+k.S = 2 * pi * (radius)^2 + 2 * pi * radius * length; 
+k.V = pi * radius ^2 * length * 1e3; % 1e3 to convert to liter
+
+% Physical constant
+k.k_B = 1.38 * 1e-23; % Boltzmann constant [Joule/Kelvin]
+k.T   = 293;          % Temperature [Kelvin]
+k.e   = 1.60 * 1e-19; % Elementary charge [Coulombs]
+k.NA  = 6.02 * 1e23;  % Avogadro constant [molecule/mol]
+k.F   = k.NA * k.e;
+
+% Pump constant
+k.v.p     = 0 * 1e5;  % v_max of the pump
+k.g.Hpump = 0;     % conductance of the H pump
+
+% Catabolism constant
+k.cat      = 0;
+k.K.cat    = 1e-3; 
+
+k.ATP_Prod = 1e6 / k.V; % [mol/Liter/second]
+
+% Membrane Permeability boolean
+k.PB_H  = 1;
+k.PB_K  = 1;
+k.PB_Cl = 1;
+k.PB_Na = 1;
+
+%% set initial values [mol/Liter]
+H_i0      = 1e-7;
+K_i0      = 1e-4;
+Cl_i0     = 1e-1;
+Na_i0     = 1e-5;
+ATP0      = 1;
+ADP0      = 1e-5;
+
+x0      = [H_i0, K_i0, Cl_i0, Na_i0, ATP0, ADP0]; % definition of the initial vector of variables
+
+%% simulate
+[t,result] = ode15s(@(t,result) toymodel_ode(t,result,k),[0,tfinal],x0,options);
+
+%% rename variables
+H_i  = result(:,1);    % a = first column of result
+K_i  = result(:,2);    % b = second column of result
+Cl_i = result(:,3);    % ... 
+Na_i = result(:,4);
+ATP  = result(:,5);
+ADP  = result(:,6);
+
+V_m = k.e * k.NA * k.V / (k.S * k.C_m) * (H_i + K_i - Cl_i + Na_i);
+
+Nernst = @(z , c_i , c_e) k.k_B * k.T ./ (z * k.e) * log(c_e ./ c_i);
+
+V_H  = Nernst(k.z_H  , H_i  , k.H_e);
+V_K  = Nernst(k.z_K  , K_i  , k.K_e);
+V_Cl = Nernst(k.z_Cl , Cl_i , k.Cl_e);
+V_Na = Nernst(k.z_Na , Na_i , k.Na_e);
+
+ToPlot = 0;
+
+if ToPlot == 0
+
+% %% plot results
+figure(1); clf; 
+subplot(4,1,1)
+plot(t,-log10(H_i)); ylabel('pH_i', 'fontsize', 14);
+
+subplot(4,1,2)
+plot(t,K_i); ylabel('K_i', 'fontsize', 14);
+
+subplot(4,1,3)
+plot(t,Cl_i); ylabel('Cl_i', 'fontsize', 14);
+
+subplot(4,1,4)
+plot(t,Na_i); ylabel('Na_i', 'fontsize', 14); xlabel('time', 'fontsize', 14)
+
+figure(2);
+plot(t,V_m); ylabel('V_m','fontsize',14)
+
+end
