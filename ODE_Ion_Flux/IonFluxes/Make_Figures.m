@@ -126,3 +126,40 @@ ylim([0 20] * 1e9)
 grid off
 
 print(gcf , 'Figures/Cmap_DeltaG_H_ratio_DeltaG_K_pHe_ATPFlow.eps' , '-dpsc2')
+
+%% Figure 5: Ratio [Ion]_i/[Ion]_o for different [Z]_i given pHe, at equilibrium
+% Also V_m associated
+
+figure(5)
+subplot(2 , 1 , 1) 
+hold all
+h1 = plot(v.Z * 1e3 , v.H_i  / k.H_e  , 'cyan'  , 'LineWidth' , 3);
+h2 = plot(v.Z * 1e3 , v.K_i  / k.K_e  , 'green' , 'LineWidth' , 3);
+h3 = plot(v.Z * 1e3 , v.Na_i / k.Na_e , 'blue'  , 'LineWidth' , 3);
+h4 = plot(v.Z * 1e3 , v.Cl_i / k.Cl_e , 'red'   , 'LineWidth' , 3);
+
+y_label = ylabel('Ratio [Ion]_i / [Ion]_o');
+
+[hleg1, hobj1] = legend([h4 , h3], 'Cl^-' , 'H^+, K^+, Na^+');
+set(hleg1, 'position' , [0.1 0.8 0.4 0.17])
+
+set(y_label ,'FontSize',18);
+set(gca , 'FontSize' , 18)
+
+ylim([0 2.5])
+
+grid on
+
+subplot(2 , 1 , 2)
+plot(v.Z * 1e3 , v.V_m * 1e3 , 'LineWidth' , 3)
+
+grid on
+
+x_label = xlabel('Intracellular Non Permeable Anions [mM] ');
+y_label = ylabel('Membrane Potential [mV]');
+
+set(y_label ,'FontSize',18);
+set(x_label ,'FontSize',18);
+set(gca , 'Fontsize' , 18);
+
+print(gcf , 'Figures/Ratio_Ion_in_out_Different_Z.eps' , '-dpsc2')

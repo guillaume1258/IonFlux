@@ -33,16 +33,19 @@ x0      = [H_i0, K_i0, Cl_i0, Na_i0, ATP0, ADP0]; % definition of the initial ve
 
 v = struct();
 
-v.pHe    = linspace(5 , 7 , 11);        % External pH
-v.nu_ATP = linspace(1 , 20 , 20) * 1e9; % In ATP/hour/cell
+v.pHe    = linspace(5 , 7 , 11);          % External pH
+v.nu_ATP = linspace(1 , 20 , 20) * 1e9;   % In ATP/hour/cell
+v.Z      = linspace(0 , 200 , 21) * 1e-3; % Range of concentraiton of non permeable negative charges inside the cell
 
-for i = 1 : 1%length(v.pHe)
+for i = 1 : length(v.Z)%length(v.pHe)
     
-    pHe = v.pHe(i);
+    %pHe = v.pHe(i);
     
     % Force pHe
     pHe = 7;
     k.H_e  = 10^-pHe;
+    
+    k.Z = v.Z(i);
     
     for j = 1 : 1%length(v.nu_ATP)
     
@@ -66,6 +69,11 @@ for i = 1 : 1%length(v.pHe)
         v.DeltaG_H(i , j) = DeltaG_H(end);
         v.DeltaG_K(i , j) = DeltaG_K(end);
         v.Beta_H(i , j)   = Beta_H(end);
+        
+        v.H_i(i)  = H_i(end);
+        v.K_i(i)  = K_i(end);
+        v.Cl_i(i) = Cl_i(end);
+        v.Na_i(i) = Na_i(end);
         
         toc;
         
