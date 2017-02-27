@@ -69,3 +69,6 @@ k.PB_Na = 1;
 k.g_Dye = 0.05;
 k.z_Dye = 1;
 k.Dye_e = 1e-6;
+
+% Non permeable charges concentration
+k.Z = 125 * 1e-3;

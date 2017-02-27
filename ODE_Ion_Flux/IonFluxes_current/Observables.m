@@ -19,7 +19,7 @@ V_Na = Nernst(k.z_Na , Na_i , k.Na_e);
 V_Dye = Nernst(k.z_Dye , Dye , k.Dye_e);
 
 % Membrane potential, given by charge balance, Ref: Kahm 2012 [Volt].
-V_m = k.e * k.NA * k.V  / (k.S * k.C_m) * (H_i + K_i - Cl_i + Na_i + Dye);
+V_m = k.e * k.NA * k.V  / (k.S * k.C_m) * (H_i + K_i - Cl_i + Na_i + Dye - k.Z);
 
 % Proton Motive Force
 PMF = V_m - V_H;
