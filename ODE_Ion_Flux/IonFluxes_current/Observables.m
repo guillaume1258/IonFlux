@@ -49,9 +49,9 @@ Beta_Cl = (1 - Beta_H)/3;
 Beta_Na = (1 - Beta_H)/3;
 
 % Osmotic pressure along time, [Joule/Liter] or [Pascal * 1e3]
-k.Z_i = 0.3;                                                            % Active Osmoc Concentration
-                                                                        % Inside, in mol/liter, see Kahm2012 for ref.  
-P_e   = k.NA * k.k_B * k.T * (k.H_e + k.K_e + k.Cl_e + k.Na_e);         % Osmolarity of the medium
+k.Z_i = 0.3;                                                            % Active Osmoc Concentration Inside
+k.Z_e = 0.15;                                                           % Outside, in mol/liter, see Kahm2012 for ref.  
+P_e   = k.NA * k.k_B * k.T * (k.H_e + k.K_e + k.Cl_e + k.Na_e + k.Z_e);         % Osmolarity of the medium
 P_i   = k.NA * k.k_B * k.T * (H_i   + K_i   + Cl_i   + Na_i + k.Z_i);   % Osmolarity of the cell
 OP    = P_i - P_e;                                                      % Osmotic pressure is the difference between the 2 osmolarities
 

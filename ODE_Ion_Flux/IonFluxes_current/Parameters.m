@@ -17,8 +17,8 @@ k.C_m = 1e2;
 % Ref, Neidhart 1974, M9 medium, units are Mol/Liter
 k.H_e  = 10^-pHe;
 k.K_e  = 22    * 1e-3;
-k.Cl_e = 28.09 * 1e-3;
-k.Na_e = 93    * 1e-3;
+k.Cl_e = (28 + 106) * 1e-3;
+k.Na_e = (93 + 19)  * 1e-3;
 
 % Valence of each ion
 k.z_H  = 1;

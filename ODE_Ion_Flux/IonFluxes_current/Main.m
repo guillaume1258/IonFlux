@@ -11,8 +11,8 @@ options = odeset('NonNegative',[1:7]);      % ensures variables stay positive
 % but can be helpful, but make sure
 % your system is actually a positive system!)
 
-options = odeset(options, 'RelTol', 1e-9,...
-    'AbsTol', 1e-12);  % accuracy of integrator
+options = odeset(options, 'RelTol', 1e-7,...
+    'AbsTol', 1e-10);  % accuracy of integrator
 % (here set to default values)
 
 %% set parameters
@@ -31,11 +31,11 @@ Dye0      = 1e-7;
 %% Parameters for the experiment
 
 % Extracellular concentration of protons
-pHe   = 5.5;
+pHe   = 7;
 k.H_e = 10^-pHe;
 
 % ATP flow
-nu_ATP     = 5 * 1e9 / 3600;       % ATP/second per cell
+nu_ATP     = 20 * 1e9 / 3600;       % ATP/second per cell
 k.ATP_Prod = nu_ATP / (k.V * k.NA); % [mol/Liter/second], 1e6 is [molec/second], k.V is volume of a cell, k.NA is [mol^-1]
 
 % Save the experiment under the following name
@@ -66,7 +66,7 @@ for i = 1 : length(v.Dye_e)
                 %k.Dye_e = 0.1;
                 % Update conductance of the Dye
                 k.g_Dye = v.g_Dye(j);
-                %k.g_Dye = 0.05;
+                
             else
                 
                 k.Dye_e = 1e-9;
@@ -93,6 +93,11 @@ for i = 1 : length(v.Dye_e)
             v.Beta_H(i , j)      = Beta_H(end);
             v.LoadingTime(i , j) = LoadingTime;
             v.OsmoticP(i ,  j)   = OP(end);
+            v.Dye_i(i , j)       = Dye(end);
+            v.Na_i(i , j)        = Na_i(end);
+            v.K_i(i , j)         = K_i(end);
+            v.Cl_i(i , j)        = Cl_i(end);
+            v.H_i(i , j)         = H_i(end);
             
             TimeDynamics(i).t    = t;
             TimeDynamics(i).Dye  = Dye;
@@ -107,9 +112,15 @@ for i = 1 : length(v.Dye_e)
     
 end
 
-% Save data
-save(Save_Name , 'v')
+% To save or not to save ?
+ToSave = 1;
 
+if ToSave == 1
+    
+    % Save data
+    save(Save_Name , 'v')
+
+end
 
 % To plot or not to plot ?
 ToPlot = 1;

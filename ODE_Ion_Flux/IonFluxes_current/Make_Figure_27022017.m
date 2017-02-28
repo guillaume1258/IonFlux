@@ -74,7 +74,7 @@ grid off
 cbar = colorbar;
 
 y_label = ylabel('log_{10}(Dye Conductance) [Siemens/m^2]' , 'fontsize' , 18);
-x_label = xlabel('log_{10}(Medium pH)' , 'fontsize' , 18);
+x_label = xlabel('log_{10}(Dye concentration) [M]' , 'fontsize' , 18);
 
 posx=get(x_label,'Pos');
 set(x_label,'Pos',[-8 0.6 posx(3)])
@@ -200,7 +200,7 @@ grid off
 cbar = colorbar;
 
 y_label = ylabel('log_{10}(Dye Conductance) [Siemens/m^2]' , 'fontsize' , 18);
-x_label = xlabel('log_{10}(Medium pH)' , 'fontsize' , 18);
+x_label = xlabel('log_{10}(Dye concentration) [M]' , 'fontsize' , 18);
 
 posx=get(x_label,'Pos');
 set(x_label,'Pos',[-8 0.6 posx(3)])
@@ -326,7 +326,7 @@ grid off
 cbar = colorbar;
 
 y_label = ylabel('log_{10}(Dye Conductance) [Siemens/m^2]' , 'fontsize' , 18);
-x_label = xlabel('log_{10}(Medium pH)' , 'fontsize' , 18);
+x_label = xlabel('log_{10}(Dye concentration) [M]' , 'fontsize' , 18);
 
 posx=get(x_label,'Pos');
 set(x_label,'Pos',[-8 0.6 posx(3)])
