@@ -10,11 +10,11 @@ figure(1)
 h1 = subplot(2 , 2 , 1);
 load('data/27022017_DyeData_pHe=7_nuATP=5000000000.mat')
 
-imagesc(log10(v.Dye_e) , log10(v.g_Dye) , v.V_m' / v.V_m(1 , 1));
+imagesc(log10(v.Dye_e) , log10(v.g_Dye) , v.V_m' / v.V_m(1 , 1) * 100);
 
 xlim(log10([v.Dye_e(1) , v.Dye_e(end)]))
 ylim(log10([v.g_Dye(1) , v.g_Dye(end)]))
-caxis([0.7 1])
+caxis([0.7 1] * 100)
 
 
 title_s1 = title('\nu_{ATP} = 5.10^9 ATP/hour, pHe = 7' , 'fontsize' , 13);
@@ -27,11 +27,11 @@ grid off
 h2 = subplot(2 , 2 , 2);
 load('data/27022017_DyeData_pHe=7_nuATP=20000000000.mat')
 
-imagesc(log10(v.Dye_e) , log10(v.g_Dye) , v.V_m' / v.V_m(1 , 1));
+imagesc(log10(v.Dye_e) , log10(v.g_Dye) , v.V_m' / v.V_m(1 , 1) * 100);
 
 xlim(log10([v.Dye_e(1) , v.Dye_e(end)]))
 ylim(log10([v.g_Dye(1) , v.g_Dye(end)]))
-caxis([0.7 1])
+caxis([0.7 1] * 100)
 
 title_s2 = title('\nu_{ATP} = 20.10^9 ATP/hour, pHe = 7' , 'fontsize' , 13);
 
@@ -43,11 +43,11 @@ grid off
 h3 = subplot(2 , 2 , 3);
 load('data/27022017_DyeData_pHe=5.500000e+00_nuATP=5000000000.mat')
 
-imagesc(log10(v.Dye_e) , log10(v.g_Dye) , v.V_m' / v.V_m(1 , 1));
+imagesc(log10(v.Dye_e) , log10(v.g_Dye) , v.V_m' / v.V_m(1 , 1) * 100);
 
 xlim(log10([v.Dye_e(1) , v.Dye_e(end)]))
 ylim(log10([v.g_Dye(1) , v.g_Dye(end)]))
-caxis([0.7 1])
+caxis([0.7 1] * 100)
 
 title_s3 = title('\nu_{ATP} = 5.10^9 ATP/hour, pHe = 5.5' , 'fontsize' , 13);
 
@@ -59,11 +59,11 @@ grid off
 h4 = subplot(2 , 2 , 4);
 load('data/27022017_DyeData_pHe=5.500000e+00_nuATP=20000000000.mat');
 
-imagesc(log10(v.Dye_e) , log10(v.g_Dye) , v.V_m' / v.V_m(1 , 1));
+imagesc(log10(v.Dye_e) , log10(v.g_Dye) , v.V_m' / v.V_m(1 , 1) * 100);
 
 xlim(log10([v.Dye_e(1) , v.Dye_e(end)]))
 ylim(log10([v.g_Dye(1) , v.g_Dye(end)]))
-caxis([0.7 1])
+caxis([0.7 1] * 100)
 
 title_s4 = title('\nu_{ATP} = 20.10^9 ATP/hour, pHe = 5.5' , 'fontsize' , 13);
 
@@ -122,7 +122,7 @@ set(h2 , 'position' , p2)
 set(h4 , 'position' , p4)
 
 % Label colorbar
-c_label = ylabel(cbar, 'Membrane Potential [%]' , 'rot' , -90 , 'position' , [10 0.865 1]);
+c_label = ylabel(cbar, 'Membrane Potential [%]' , 'rot' , -90 , 'position' , [10 0.865 * 100 1]);
 
 set(c_label , 'fontsize' , 18)
 %set(c_label , 'position' , [0.9 , 0.5 10])
