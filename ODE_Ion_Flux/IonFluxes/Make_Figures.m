@@ -3,11 +3,11 @@
 
 %% Figure 1: V_m as function of pHe and ATP expenditure per hour
 
-load('data/Sim_24_02_2017.mat');
+load('data/28022017_pHe_nuATP.mat');
 
 figure(1)
 hold all
-imagesc(v.pHe , v.nu_ATP , v.V_m * 1e3);
+imagesc(v.pHe , v.nu_ATP , v.V_m' * 1e3);
 
 h = colorbar;
 
@@ -27,7 +27,7 @@ set(c_label ,'FontSize',18);
 set(gca , 'FontSize' , 18)
 
 xlim([5 7])
-ylim([0 20] * 1e9)
+ylim([1 20] * 1e9)
 
 
 grid off
@@ -38,7 +38,7 @@ print(gcf , 'Figures/Cmap_Vm_pHe_ATPFlow.eps' , '-dpsc2')
 
 figure(2)
 hold all
-imagesc(v.pHe , v.nu_ATP , v.PMF * 1e3);
+imagesc(v.pHe , v.nu_ATP , v.PMF' * 1e3);
 
 h = colorbar;
 
@@ -58,7 +58,7 @@ set(c_label ,'FontSize',18);
 set(gca , 'FontSize' , 18)
 
 xlim([5 7])
-ylim([0 20] * 1e9)
+ylim([1 20] * 1e9)
 
 
 grid off
@@ -69,7 +69,7 @@ print(gcf , 'Figures/Cmap_PMF_pHe_ATPFlow.eps' , '-dpsc2')
 
 figure(3)
 hold all
-imagesc(v.pHe , v.nu_ATP , v.DeltapHi);
+imagesc(v.pHe , v.nu_ATP , v.DeltapHi');
 
 h = colorbar;
 
@@ -89,7 +89,7 @@ set(c_label ,'FontSize',18);
 set(gca , 'FontSize' , 18)
 
 xlim([5 7])
-ylim([0 20] * 1e9)
+ylim([1 20] * 1e9)
 
 
 grid off
@@ -100,7 +100,7 @@ print(gcf , 'Figures/Cmap_DeltapHi_pHe_ATPFlow.eps' , '-dpsc2')
 
 figure(4)
 hold all
-imagesc(v.pHe , v.nu_ATP , v.DeltaG_H ./ v.DeltaG_K );
+imagesc(v.pHe , v.nu_ATP , v.DeltaG_H' ./ v.DeltaG_K' );
 
 h = colorbar;
 
@@ -120,7 +120,7 @@ set(c_label ,'FontSize',18);
 set(gca , 'FontSize' , 18)
 
 xlim([5 7])
-ylim([0 20] * 1e9)
+ylim([1 20] * 1e9)
 
 
 grid off

@@ -37,19 +37,19 @@ v.pHe    = linspace(5 , 7 , 11);          % External pH
 v.nu_ATP = linspace(1 , 20 , 20) * 1e9;   % In ATP/hour/cell
 v.Z      = linspace(0 , 200 , 21) * 1e-3; % Range of concentraiton of non permeable negative charges inside the cell
 
-for i = 1 : length(v.Z)%length(v.pHe)
+for i = 1 : length(v.pHe)
     
-    %pHe = v.pHe(i);
+    pHe = v.pHe(i);
     
     % Force pHe
-    pHe = 7;
+    %pHe = 7;
     k.H_e  = 10^-pHe;
     
-    k.Z = v.Z(i);
+    %k.Z = v.Z(i);
     
-    for j = 1 : 1%length(v.nu_ATP)
+    for j = 1 : length(v.nu_ATP)
     
-        nu_ATP     = 0;%v.nu_ATP(j) / 3600;       
+        nu_ATP     = v.nu_ATP(j) / 3600;       
         k.ATP_Prod = nu_ATP / (k.V * k.NA);
 
         tic;
