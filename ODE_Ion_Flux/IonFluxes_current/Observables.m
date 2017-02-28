@@ -54,3 +54,13 @@ k.Z_i = 0.3;                                                            % Active
 P_e   = k.NA * k.k_B * k.T * (k.H_e + k.K_e + k.Cl_e + k.Na_e);         % Osmolarity of the medium
 P_i   = k.NA * k.k_B * k.T * (H_i   + K_i   + Cl_i   + Na_i + k.Z_i);   % Osmolarity of the cell
 OP    = P_i - P_e;                                                      % Osmotic pressure is the difference between the 2 osmolarities
+
+% Get loading time (time required such that no values for intracellular concentration of the dye deviate
+% more than 1% from the steady state value).
+% Deviation in % from the steady state value for all time point
+Deviation = abs((Dye - Dye(end)) / Dye(end));
+% Tolerance on upon what tolerance we say that it is the loading timee
+Tolerance = 0.01;
+% Find time for which deviation is under the tolerance threshold
+LoadingTime = t(find(Deviation < Tolerance , 1));
+
