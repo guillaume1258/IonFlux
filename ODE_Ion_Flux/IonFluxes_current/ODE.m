@@ -63,9 +63,9 @@ pHi_Current = -log10(H);
 Delta_pHi   = abs(k.pHi_Target - pHi_Current);
 
 Beta_H  = 1 / (1 + (k.K.H / Delta_pHi)^k.alpha_H);
-Beta_K  = (1 - Beta_H) * 2/6;
-Beta_Cl = (1 - Beta_H) * 2/6;
-Beta_Na = (1 - Beta_H) * 2/6;
+Beta_K  = (1 - Beta_H) * k.Beta_K;
+Beta_Cl = (1 - Beta_H) * k.Beta_Cl;
+Beta_Na = (1 - Beta_H) * k.Beta_Na;
 
 % Work allocated to each ions [Joule/Liter/second]
 Work_H  = Beta_H  * Work;

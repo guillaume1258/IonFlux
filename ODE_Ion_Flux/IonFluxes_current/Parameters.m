@@ -68,7 +68,12 @@ k.PB_Na = 1;
 % Dye
 k.g_Dye = 0.05;
 k.z_Dye = 1;
-k.Dye_e = 1e-6;
+k.Dye_e = 1e-9;
 
 % Non permeable charges concentration
 k.Z = 125 * 1e-3;
+
+% Allocation ATP work
+k.Beta_K  = 1 / 3;
+k.Beta_Cl = 1 / 3;
+k.Beta_Na = 1 / 3;
